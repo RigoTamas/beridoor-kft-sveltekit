@@ -1,25 +1,9 @@
 <script>
 	import '../app.css';
-	// import { SEO } from "astro-seo";
-	import { page } from '$app/stores';
 	import Footer from '$lib/components/footer.svelte';
 	import Navbar from '$lib/components/navbar/navbar.svelte';
 	export let title = '';
 	export let description = '';
-
-	// const canonicalURL = new URL($page.path, $page.site).toString();
-	// const resolvedImageWithDomain = new URL("/opengraph.jpg", $page.site).toString();
-
-	// const makeTitle = `${title} | Beridoor Kft`;
-
-	// // Check and set light/dark mode based on local storage
-	// const htmlRootElement = document.getElementById("html-root");
-	// const lightModeEnabled = localStorage.getItem("lightMode");
-	// if (lightModeEnabled === "true") {
-	//   htmlRootElement?.classList.remove("dark");
-	// } else {
-	//   htmlRootElement?.classList.add("dark");
-	// }
 </script>
 
 <div class="wrapper dark:text-gray-100 dark:bg-beridoorDarkModeBg bg-white text-beridoorBlue">
