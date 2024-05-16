@@ -2,13 +2,6 @@
 	import { browser } from '$app/environment';
 	import { SunSolid, MoonSolid } from 'flowbite-svelte-icons';
 	let lightMode = browser && localStorage.getItem('lightMode') === 'true'; // default is dark
-	if (browser) {
-		if (lightMode) {
-			document.documentElement.classList.remove('dark');
-		} else {
-			document.documentElement.classList.add('dark');
-		}
-	}
 	function handleSwitchDarkMode() {
 		lightMode = !lightMode;
 		if (browser) {

@@ -48,9 +48,9 @@
 
 <header class="sticky top-0 lg:flex lg:items-center lg:justify-between px-4 py-3 mx-auto lg:bg-beridoorBlue w-full text-lg z-40">
 	<div class="flex items-center justify-between">
-		<div class="w-[140px]">
+		<a href="/" class="w-[140px]">
 			<Img src={LogoImage} alt="logo" />
-		</div>
+		</a>
 		<a
 			href="/kapcsolat/"
 			class="px-7 hidden lg:block lg:text-gray-100 lg:hover:text-white text-beridoorBlue hover:text-black dark:text-gray-100 dark:hover:text-white"
