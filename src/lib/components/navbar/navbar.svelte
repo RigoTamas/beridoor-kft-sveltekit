@@ -2,6 +2,8 @@
 	import Dropdown from './dropdown.svelte';
 	import LogoImage from '$lib/assets/logo-new-cropped-3.png?as=run';
 	import Img from '@zerodevx/svelte-img';
+	import { SunSolid, MoonSolid, PhoneOutline, ClockSolid } from 'flowbite-svelte-icons';
+	import DarkModeSwitcher from './dark-mode-switcher.svelte';
 
 	let isHamburgerMenuOpen = false;
 
@@ -44,12 +46,17 @@
 	];
 </script>
 
-<header class="lg:flex lg:items-center lg:justify-between px-4 py-3">
+<header class="sticky top-0 lg:flex lg:items-center lg:justify-between px-4 py-3 mx-auto lg:bg-beridoorBlue w-full text-lg z-40">
 	<div class="flex items-center justify-between">
 		<div class="w-[140px]">
 			<Img src={LogoImage} alt="logo" />
 		</div>
-		<button on:click={() => (isHamburgerMenuOpen = !isHamburgerMenuOpen)} type="button" class="lg:hidden block text-gray-500">
+		<a
+			href="/kapcsolat/"
+			class="px-7 hidden lg:block lg:text-gray-100 lg:hover:text-white text-beridoorBlue hover:text-black dark:text-gray-100 dark:hover:text-white"
+			>Télikert már 1.490.000 Ft-tól</a
+		>
+		<button on:click={() => (isHamburgerMenuOpen = !isHamburgerMenuOpen)} type="button" class="lg:hidden block">
 			<svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
 				{#if isHamburgerMenuOpen}
 					<path
@@ -62,13 +69,35 @@
 			</svg>
 		</button>
 	</div>
-	<nav class={`${isHamburgerMenuOpen ? 'block' : 'hidden'} lg:flex lg:flex-row flex-col py-3 lg:py-0 justify-between gap-3`}>
-		{#each menuItems as menuItem}
-			{#if menuItem.children}
-				<Dropdown title={menuItem.title} children={menuItem.children}></Dropdown>
-			{:else}
-				<a href={menuItem.path}>{menuItem.title}</a>
-			{/if}
-		{/each}
-	</nav>
+
+	<div>
+		<div class="hidden lg:flex text-sm text-gray-100 lg:pb-3 lg:gap-8 justify-end">
+			<DarkModeSwitcher />
+			<div class="flex lg:gap-1 justify-center">
+				<PhoneOutline class="text-gray-400 w-5 h-5" />
+				<p>Személyes konzultáció</p>
+				<a href="tel:+36 30 931 4070">+36 30 931 4070</a>
+			</div>
+			<div class="flex lg:gap-1 justify-center">
+				<ClockSolid class="mt-[2px] text-gray-400 w-4 h-4" name="clock-filled" />
+				<p>H-P 9:00 - 17:00</p>
+			</div>
+			<a href="/kapcsolat/">AJÁNLATKÉRÉS</a>
+		</div>
+		<nav class={`${isHamburgerMenuOpen ? 'block' : 'hidden'} lg:flex lg:flex-row flex-col py-3 lg:py-0 justify-between gap-3 lg:gap-6 `}>
+			{#each menuItems as menuItem}
+				{#if menuItem.children}
+					<Dropdown
+						myClass="lg:text-gray-100 lg:hover:text-white text-beridoorBlue hover:text-black dark:text-gray-100 dark:hover:text-white"
+						title={menuItem.title}
+						children={menuItem.children}
+					></Dropdown>
+				{:else}
+					<a class="lg:text-gray-100 lg:hover:text-white text-beridoorBlue hover:text-black dark:text-gray-100 dark:hover:text-white" href={menuItem.path}
+						>{menuItem.title}</a
+					>
+				{/if}
+			{/each}
+		</nav>
+	</div>
 </header>
