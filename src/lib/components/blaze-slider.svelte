@@ -69,6 +69,7 @@
 					<div class="inline-block rounded-none overflow-hidden bg-cover bg-center relative w-full h-[calc(100vh-86px)]">
 						<BlurredImage
 							src={image.imageRenderable}
+							useWrapperClass={false}
 							alt={image.alt}
 							innerClass={`z-10 pointer-events-none absolute left-0 top-0 w-full, h-full object-cover min-w-full min-h-full bg-cover bg-no-repeat`}
 							on:loaded={() => {

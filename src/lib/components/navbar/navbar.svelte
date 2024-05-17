@@ -4,21 +4,19 @@
 	import Img from '@zerodevx/svelte-img';
 	import { SunSolid, MoonSolid, PhoneOutline, ClockSolid } from 'flowbite-svelte-icons';
 	import DarkModeSwitcher from './dark-mode-switcher.svelte';
+	import { termekek } from '$lib/data/termekek';
+
+	const telikertChildren = Object.values(termekek).map((entry) => ({
+		title: entry.title,
+		path: `/termekek/${entry.path}`
+	}));
 
 	let isHamburgerMenuOpen = false;
 
 	const menuItems = [
 		{
 			title: 'TÉLIKERT',
-			children: [
-				{ title: 'Télikert', path: '/termekek/#telikert' },
-				{ title: 'Teraszbeépítés', path: '/termekek/#terasz' },
-				{ title: 'Medencefedés', path: '/termekek/#medencefedes' },
-				{ title: 'Szélfogó', path: '/termekek/#szelfogo' },
-				{ title: 'Elő-védőtető', path: '/termekek/#vedoteto' },
-				{ title: 'Függönyfal', path: '/termekek/#fuggonyfal' },
-				{ title: 'Bevilágító kupola', path: '/termekek/#kupola' }
-			]
+			children: telikertChildren
 		},
 		{
 			title: 'SZOLGÁLTATÁSOK',

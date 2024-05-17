@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="hu">
 	<head>
-		<script>
-			const htmlRootElement = document.getElementById('html-root');
-			const lightModeEnabled = localStorage.getItem('lightMode');
-			if (lightModeEnabled === 'true') {
-				document.documentElement.classList.remove('dark');
-			} else {
+		<script type="module">
+			const theme = localStorage.getItem('color-scheme')
+			if (theme == null || theme === 'dark') {
+				localStorage.setItem('color-scheme', 'dark')
 				document.documentElement.classList.add('dark');
+			} else {
+				localStorage.setItem('color-scheme', 'light')
+				document.documentElement.classList.remove('dark');
 			}
 		</script>
 		<!-- Google Tag Manager -->
@@ -47,3 +48,11 @@
 		<script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
 	</body>
 </html>
+
+<style>
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+	}
+</style>

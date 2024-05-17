@@ -4,16 +4,18 @@
 	export let src: string;
 	export let alt: string;
 	export let innerClass: string = '';
+	export let outerClass: string = '';
+	export let useWrapperClass: boolean;
 	const dispatch = createEventDispatcher<{ loaded: undefined }>();
 
 	let ref: any;
 	let loaded: boolean;
 	onMount(() => {
-		if (ref.complete) loaded = true;
+		if (ref?.complete) loaded = true;
 	});
 </script>
 
-<div>
+<div class={`${useWrapperClass ? 'wrap' : ''} ${outerClass}`}>
 	<Img
 		{src}
 		{alt}
@@ -24,7 +26,7 @@
 			dispatch('loaded');
 		}}
 	/>
-	<div class="blur" class:loaded />
+	<div class={loaded ? 'loaded' : 'blur'} />
 </div>
 
 <style>
@@ -37,5 +39,9 @@
 	}
 	.loaded {
 		display: none;
+	}
+	.wrap {
+		position: relative;
+		overflow: hidden;
 	}
 </style>
