@@ -1,14 +1,21 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 	import Footer from '$lib/components/footer.svelte';
 	import Navbar from '$lib/components/navbar/navbar.svelte';
+	import Transition from '$lib/components/transition.svelte';
+
+	export let data: { url: string };
 	export let title = '';
 	export let description = '';
 </script>
 
 <div class="wrapper dark:text-gray-100 dark:bg-beridoorDarkModeBg bg-white text-beridoorBlue">
 	<Navbar />
-	<slot />
+	<main>
+		<Transition url={data.url}>
+			<slot />
+		</Transition>
+	</main>
 	<Footer />
 	<style>
 		/* Improve Page speed */

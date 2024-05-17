@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { SunSolid, MoonSolid } from 'flowbite-svelte-icons';
+	import { fly } from 'svelte/transition';
+
 	let lightMode = browser && localStorage.getItem('lightMode') === 'true'; // default is dark
 	function handleSwitchDarkMode() {
 		lightMode = !lightMode;
@@ -12,11 +14,11 @@
 </script>
 
 {#if lightMode}
-	<button on:click={handleSwitchDarkMode}>
+	<button in:fly={{ y: 10 }} on:click={handleSwitchDarkMode}>
 		<MoonSolid class="pb-[1px] hover:text-white text-gray-400 w-6 h-6" />
 	</button>
 {:else}
-	<button on:click={handleSwitchDarkMode}>
+	<button in:fly={{ y: -10 }} on:click={handleSwitchDarkMode}>
 		<SunSolid class="pb-[1px] hover:text-yellow-300 text-gray-400 w-6 h-6" />
 	</button>
 {/if}
