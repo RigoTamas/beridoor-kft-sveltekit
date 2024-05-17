@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { reveal } from 'svelte-reveal';
-	import BlurredImage from '../../../lib/components/blurred-image.svelte';
+	import BlurredImage from '$lib/components/blurred-image.svelte';
 	import Container from '$lib/components/container.svelte';
 	import { termekek } from '$lib/data/termekek';
-	import Button from '../../../lib/components/button.svelte';
+	import Button from '$lib/components/button.svelte';
 	export let data: PageData;
 </script>
 
@@ -25,7 +25,7 @@
 	</div>
 	<div class="grid md:grid-cols-3 xs:grid-cols-2 grid-cols-1 pt-16 pb-8 gap-8 justify-center mx-6">
 		{#each data.imagesRenderable as { src, alt }}
-			<div use:reveal={{ transition: 'slide' }}>
+			<div use:reveal={{ preset: 'fade', duration: 800, blur: 1 }}>
 				<BlurredImage {src} innerClass="w-[400px]" outerClass="rounded-lg" useWrapperClass={true} {alt} />
 			</div>
 		{/each}

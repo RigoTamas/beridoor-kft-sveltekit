@@ -2,13 +2,12 @@
 <html lang="hu">
 	<head>
 		<script type="module">
-			const theme = localStorage.getItem('color-scheme')
-			if (theme == null || theme === 'dark') {
-				localStorage.setItem('color-scheme', 'dark')
-				document.documentElement.classList.add('dark');
-			} else {
-				localStorage.setItem('color-scheme', 'light')
+			const htmlRootElement = document.getElementById('html-root');
+			const lightModeEnabled = localStorage.getItem('lightMode');
+			if (lightModeEnabled === 'true') {
 				document.documentElement.classList.remove('dark');
+			} else {
+				document.documentElement.classList.add('dark');
 			}
 		</script>
 		<!-- Google Tag Manager -->
