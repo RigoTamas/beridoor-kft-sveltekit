@@ -26,6 +26,7 @@
 	});
 	onDestroy(() => {
 		if (browser) {
+			sliderRef = null;
 			document.removeEventListener('keydown', onKeyDown);
 		}
 	});

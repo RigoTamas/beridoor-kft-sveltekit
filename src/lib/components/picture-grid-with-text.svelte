@@ -64,12 +64,15 @@
 	</div>
 </Container>
 
-<Modal bind:showModal>
-	<BlazeSliderImpl bind:sliderRef {sliderConfig}>
-		{#each reArrangeListToStartFromIndex({ list: data.imagesRenderable, index: currentActiveImageIndex }) as { src, alt }}
-			<button on:click={() => (showModal = true)}>
-				<BlurredImage {src} innerClass="w-[400px]" outerClass="rounded-lg" useWrapperClass={true} {alt} />
-			</button>
-		{/each}
-	</BlazeSliderImpl>
-</Modal>
+{#key showModal}
+	<!-- this if is needed because we need to destroy the blazeSlider element on modal close and create a new one so that the indexing works properly -->
+	<Modal bind:showModal>
+		<BlazeSliderImpl bind:sliderRef {sliderConfig}>
+			{#each reArrangeListToStartFromIndex({ list: data.imagesRenderable, index: currentActiveImageIndex }) as { src, alt }}
+				<button on:click={() => (showModal = true)}>
+					<BlurredImage {src} outerClass="rounded-lg" useWrapperClass={true} {alt} />
+				</button>
+			{/each}
+		</BlazeSliderImpl>
+	</Modal>
+{/key}
