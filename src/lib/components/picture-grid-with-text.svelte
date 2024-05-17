@@ -1,12 +1,41 @@
 <script lang="ts">
 	import { reveal } from 'svelte-reveal';
+	import '$lib/styles/blaze-slider.css';
 	import BlurredImage from '$lib/components/blurred-image.svelte';
 	import Container from '$lib/components/container.svelte';
+	import { browser } from '$app/environment';
+
 	import { termekek } from '$lib/data/termekek';
 	import Button from '$lib/components/button.svelte';
+	import Modal from './modal.svelte';
+	import BlazeSliderImpl from './blaze-slider.svelte';
+	import type { BlazeConfig } from 'blaze-slider';
+	import type BlazeSlider from 'blaze-slider';
 
 	export let basePath: string;
 	export let data: { slug?: string; description?: string; imagesRenderable: { src: string; alt: string }[] };
+
+	let showModal = false;
+	let currentActiveImageIndex = 0;
+	let sliderRef: BlazeSlider | null = null;
+
+	const sliderConfig: BlazeConfig = {
+		all: {
+			enableAutoplay: false,
+			draggable: true,
+			transitionDuration: 600,
+			slidesToShow: 1
+		}
+	};
+
+	const onClickImage = (index: number) => {
+		currentActiveImageIndex = index;
+		showModal = true;
+	};
+
+	const reArrangeListToStartFromIndex = <T extends unknown[]>({ list, index }: { list: T; index: number }) => {
+		return list.slice(index).concat(list.slice(0, index)) as T;
+	};
 </script>
 
 <Container>
@@ -27,10 +56,20 @@
 		</div>
 	{/if}
 	<div class="grid md:grid-cols-3 xs:grid-cols-2 grid-cols-1 pt-16 pb-8 gap-8 justify-center mx-6">
-		{#each data.imagesRenderable as { src, alt }}
-			<div use:reveal={{ preset: 'fade', duration: 800, blur: 1 }}>
+		{#each data.imagesRenderable as { src, alt }, index}
+			<button on:click={() => onClickImage(index)} use:reveal={{ preset: 'fade', duration: 800, blur: 1 }}>
 				<BlurredImage {src} innerClass="w-[400px]" outerClass="rounded-lg" useWrapperClass={true} {alt} />
-			</div>
+			</button>
 		{/each}
 	</div>
 </Container>
+
+<Modal bind:showModal>
+	<BlazeSliderImpl bind:sliderRef {sliderConfig}>
+		{#each reArrangeListToStartFromIndex({ list: data.imagesRenderable, index: currentActiveImageIndex }) as { src, alt }}
+			<button on:click={() => (showModal = true)}>
+				<BlurredImage {src} innerClass="w-[400px]" outerClass="rounded-lg" useWrapperClass={true} {alt} />
+			</button>
+		{/each}
+	</BlazeSliderImpl>
+</Modal>
