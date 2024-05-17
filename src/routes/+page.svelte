@@ -1,5 +1,8 @@
 <script lang="ts">
-	import BlazeSlider from '$lib/components/blaze-slider.svelte';
+	import BlazeSliderImpl from '$lib/components/blaze-slider.svelte';
+	import type BlazeSlider from 'blaze-slider';
+	import type { BlazeConfig } from 'blaze-slider';
+	import BlurredImage from '../lib/components/blurred-image.svelte';
 
 	const getFilenameFormatted = (filePath: string) => {
 		const filename = filePath.split('/').slice(-1)[0];
@@ -13,9 +16,58 @@
 		alt: key,
 		mainText: getFilenameFormatted(key)
 	}));
+
+	let sliderRef: BlazeSlider | null = null;
+	const sliderConfig: BlazeConfig = {
+		all: {
+			stopAutoplayOnInteraction: true,
+			enableAutoplay: true,
+			draggable: true,
+			autoplayInterval: 4500,
+			transitionDuration: 600,
+			slidesToShow: 1
+		}
+	};
+
+	function preloadNext(nextCount: number, prevCount: number) {
+		if (sliderRef) {
+			Array.from(sliderRef.slides)
+				.slice(0, nextCount + 1)
+				.map((slide) => slide.querySelector('img'))
+				.forEach((s) => s?.setAttribute('loading', 'eager'));
+			Array.from(sliderRef.slides)
+				.slice(-prevCount)
+				.map((slide) => slide.querySelector('img'))
+				.forEach((s) => s?.setAttribute('loading', 'eager'));
+		}
+	}
 </script>
 
-<BlazeSlider {images} />
+<BlazeSliderImpl bind:sliderRef {sliderConfig}>
+	{#each images as image, i}
+		<div class="inline-block rounded-none overflow-hidden bg-cover bg-center relative w-full h-[calc(100vh-86px)]">
+			<BlurredImage
+				src={image.imageRenderable}
+				useWrapperClass={false}
+				alt={image.alt}
+				innerClass={`z-10 pointer-events-none absolute left-0 top-0 w-full, h-full object-cover min-w-full min-h-full bg-cover bg-no-repeat`}
+				on:loaded={() => {
+					if (i === 0) {
+						// start auto play
+						sliderRef?.refresh();
+					}
+					preloadNext(2, 1);
+				}}
+			/>
+			{#if image.mainText}
+				<p class="z-40 centeredText outlineText text-white text-2xl xxs:text-3xl md:text-4xl lg:text-6xl 2xl:text-7xl 3xl:text-8xl">
+					{image.mainText}
+				</p>
+			{/if}
+		</div>
+	{/each}
+</BlazeSliderImpl>
+
 <main class="grid place-items-center pt-16 pb-8 md:pt-12 md:pb-16">
 	<div>
 		<h1 class="text-xl lg:text-2xl xl:text-3xl font-bold text-center lg:tracking-tight xl:tracking-tighter my-6">TÉLIKERTEK ÉPÍTÉSE EGYÉNI IGÉNYEK SZERINT</h1>
@@ -51,3 +103,101 @@
 		</div>
 	</div>
 </main>
+
+<style>
+	/* used for generation: https://codepen.io/darkylmnx/pen/YVmKbj, https://stackoverflow.com/questions/2570972/css-font-border */
+	.outlineText {
+		@media (min-width: 10px) {
+			text-shadow:
+				-1px -1px 0 #143143,
+				-1px 0px 0 #143143,
+				-1px 1px 0 #143143,
+				0px -1px 0 #143143,
+				0px 0px 0 #143143,
+				0px 1px 0 #143143,
+				1px -1px 0 #143143,
+				1px 0px 0 #143143,
+				1px 1px 0 #143143;
+		}
+		@media (min-width: 1024px) {
+			text-shadow:
+				-2px -2px 0 #143143,
+				-2px -1px 0 #143143,
+				-2px 0px 0 #143143,
+				-2px 1px 0 #143143,
+				-2px 2px 0 #143143,
+				-1px -2px 0 #143143,
+				-1px -1px 0 #143143,
+				-1px 0px 0 #143143,
+				-1px 1px 0 #143143,
+				-1px 2px 0 #143143,
+				0px -2px 0 #143143,
+				0px -1px 0 #143143,
+				0px 0px 0 #143143,
+				0px 1px 0 #143143,
+				0px 2px 0 #143143,
+				1px -2px 0 #143143,
+				1px -1px 0 #143143,
+				1px 0px 0 #143143,
+				1px 1px 0 #143143,
+				1px 2px 0 #143143,
+				2px -2px 0 #143143,
+				2px -1px 0 #143143,
+				2px 0px 0 #143143,
+				2px 1px 0 #143143,
+				2px 2px 0 #143143;
+		}
+		@media (min-width: 1536px) {
+			text-shadow:
+				-3px -3px 0 #143143,
+				-3px -2px 0 #143143,
+				-3px -1px 0 #143143,
+				-3px 0px 0 #143143,
+				-3px 1px 0 #143143,
+				-3px 2px 0 #143143,
+				-3px 3px 0 #143143,
+				-2px -3px 0 #143143,
+				-2px -2px 0 #143143,
+				-2px -1px 0 #143143,
+				-2px 0px 0 #143143,
+				-2px 1px 0 #143143,
+				-2px 2px 0 #143143,
+				-2px 3px 0 #143143,
+				-1px -3px 0 #143143,
+				-1px -2px 0 #143143,
+				-1px -1px 0 #143143,
+				-1px 0px 0 #143143,
+				-1px 1px 0 #143143,
+				-1px 2px 0 #143143,
+				-1px 3px 0 #143143,
+				0px -3px 0 #143143,
+				0px -2px 0 #143143,
+				0px -1px 0 #143143,
+				0px 0px 0 #143143,
+				0px 1px 0 #143143,
+				0px 2px 0 #143143,
+				0px 3px 0 #143143,
+				1px -3px 0 #143143,
+				1px -2px 0 #143143,
+				1px -1px 0 #143143,
+				1px 0px 0 #143143,
+				1px 1px 0 #143143,
+				1px 2px 0 #143143,
+				1px 3px 0 #143143,
+				2px -3px 0 #143143,
+				2px -2px 0 #143143,
+				2px -1px 0 #143143,
+				2px 0px 0 #143143,
+				2px 1px 0 #143143,
+				2px 2px 0 #143143,
+				2px 3px 0 #143143,
+				3px -3px 0 #143143,
+				3px -2px 0 #143143,
+				3px -1px 0 #143143,
+				3px 0px 0 #143143,
+				3px 1px 0 #143143,
+				3px 2px 0 #143143,
+				3px 3px 0 #143143;
+		}
+	}
+</style>
